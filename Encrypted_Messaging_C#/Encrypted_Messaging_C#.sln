@@ -5,6 +5,8 @@ VisualStudioVersion = 17.7.34031.279
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Encrypted_Messaging_C#", "Encrypted_Messaging_C#.csproj", "{10B6F0D2-B08E-4E19-9492-C25886735237}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Encrypted_Message_UI", "..\Encrypted_Message_UI\Encrypted_Message_UI.csproj", "{8ADBA4A9-350A-41DB-9204-3E6F37848597}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{10B6F0D2-B08E-4E19-9492-C25886735237}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{10B6F0D2-B08E-4E19-9492-C25886735237}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{10B6F0D2-B08E-4E19-9492-C25886735237}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8ADBA4A9-350A-41DB-9204-3E6F37848597}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8ADBA4A9-350A-41DB-9204-3E6F37848597}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8ADBA4A9-350A-41DB-9204-3E6F37848597}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8ADBA4A9-350A-41DB-9204-3E6F37848597}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

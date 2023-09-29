@@ -7,7 +7,13 @@ using System.Threading.Tasks;
 
 namespace Encrypted_Messaging_C_
 {
-    internal class MessageHandler
+    public interface IMessageHandler
+    {
+        Task SendMessageWithLengthAsync(string message);
+        Task<string> ReceiveMessageWithLengthAsync();
+    }
+
+    public class MessageHandler : IMessageHandler
     {
 
         private readonly NetworkStream _stream;
@@ -17,20 +23,25 @@ namespace Encrypted_Messaging_C_
             _stream = stream ?? throw new ArgumentNullException(nameof(stream));
         }
 
-        public async Task SendMessageAsync(string message)
+        public async Task SendMessageWithLengthAsync(string message)
         {
-            if (string.IsNullOrEmpty(message)) return;
-
             byte[] messageBytes = Encoding.UTF8.GetBytes(message);
+            byte[] lengthBytes = BitConverter.GetBytes(messageBytes.Length);
+
+            await _stream.WriteAsync(lengthBytes, 0, 4);
             await _stream.WriteAsync(messageBytes, 0, messageBytes.Length);
         }
 
-        public async Task<string> ReceiveMessageAsync(int bufferSize)
+        public async Task<string> ReceiveMessageWithLengthAsync()
         {
-            byte[] buffer = new byte[bufferSize];
-            int bytesRead = await _stream.ReadAsync(buffer, 0, bufferSize);
+            byte[] lengthBytes = new byte[4];
+            await _stream.ReadAsync(lengthBytes, 0, 4);
+            int messageLength = BitConverter.ToInt32(lengthBytes, 0);
 
-            return Encoding.UTF8.GetString(buffer, 0, bytesRead);
+            byte[] messageBytes = new byte[messageLength];
+            await _stream.ReadAsync(messageBytes, 0, messageLength);
+
+            return Encoding.UTF8.GetString(messageBytes);
         }
 
     }

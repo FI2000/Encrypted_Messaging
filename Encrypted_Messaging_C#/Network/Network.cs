@@ -1,38 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Net;
 
 namespace Encrypted_Messaging_C_.Network
 {
-    internal static class Network
+    public static class Network
     {
         
-        internal static async Task Listen(string port)
+        public static bool IsValidIp(string ip)
         {
-            Listener listener = new Listener();
-            Task listenTask = listener.ListenAsync(port);
-            Console.WriteLine("Started listening...");
-
-            while (!Listener.clientConnected)
-            {
-                await Task.Delay(500);
-            }
-
-            await listenTask;
-            Console.WriteLine("Connected. Enter 'exit' to exit.");
-            await listener.RunListener();
-            Console.WriteLine("Disconnected.");
+            return IPAddress.TryParse(ip, out _) || ip == "localhost";
         }
 
-        internal static async Task Connect(string ip, string port)
+        public static bool IsValidPort(string portString)
         {
-            Client client = new Client(ip, port);
-            Console.WriteLine("Connected. Enter 'exit' to exit.");
-            await client.RunClient();
-            Console.WriteLine("Disconnected.");
+            return int.TryParse(portString, out int port) && port >= 0 && port <= 65535;
         }
     }
 }
