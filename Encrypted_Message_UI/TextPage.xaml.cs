@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using messengerProject = Encrypted_Messaging_C_.Network;
+using encryptor = Encrypted_Messaging_C_.EncryptionHandler;
 
 namespace Encrypted_Message_UI
 {
@@ -14,10 +15,14 @@ namespace Encrypted_Message_UI
     public partial class TextPage : Page
     {
         private messengerProject.Messenger _user;
-        public TextPage(messengerProject.Messenger user)
+        private readonly string _encryptionKey;
+        private readonly string _ivKey;
+        public TextPage(messengerProject.Messenger user, string key, string ivKey)
         {
             InitializeComponent();
             _user = user;
+            _encryptionKey = key;
+            _ivKey = ivKey;
             Run();
         }
 
@@ -34,7 +39,8 @@ namespace Encrypted_Message_UI
 
         private async void SendMessagesAsync(string messageToSend)
         {
-            await _user.GetMessageHandler().SendMessageWithLengthAsync(messageToSend);
+
+            await _user.GetMessageHandler().SendMessageWithLengthAsync(encryptor.Encrypt(messageToSend, _encryptionKey, _ivKey));
         }
 
         private async Task ReceiveMessagesAsync()
@@ -42,7 +48,7 @@ namespace Encrypted_Message_UI
             while (true)
             {
                 string receivedMessage = await _user.GetMessageHandler().ReceiveMessageWithLengthAsync();
-                ReceivedMessagesTextBox.Text += $"~{receivedMessage}\n";
+                ReceivedMessagesTextBox.Text += $"~{encryptor.Decrypt(receivedMessage, _encryptionKey, _ivKey)}\n";
             }
         }
     }

@@ -84,7 +84,9 @@ namespace Encrypted_Message_UI
                 Debug.WriteLine("Connected. Enter 'exit' to exit.");
             }
 
-            NavigationService.Navigate(new TextPage(_user));
+            string key = EncryptionKeyTextBox.Text;
+            string ivKey = IvKeyTextBox.Text;
+            NavigationService.Navigate(new TextPage(_user, key, ivKey));
         }
     }
 }
